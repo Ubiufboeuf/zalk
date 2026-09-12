@@ -85,3 +85,36 @@ export const IconPlusMinus = () => (
     <path d='M5 19l14 -14' />
   </Svg>
 )
+
+export const IconHistory = () => (
+  <Svg>
+    <path d='M12 8l0 4l2 2' />
+    <path d='M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5' />
+  </Svg>
+)
+
+export const IconUnits = () => (
+  <Svg>
+    <path d='M19.875 8c.621 0 1.125 .512 1.125 1.143v5.714c0 .631 -.504 1.143 -1.125 1.143h-15.875a1 1 0 0 1 -1 -1v-5.857c0 -.631 .504 -1.143 1.125 -1.143h15.75' />
+    <path d='M9 8v2' />
+    <path d='M6 8v3' />
+    <path d='M12 8v3' />
+    <path d='M18 8v3' />
+    <path d='M15 8v2' />
+  </Svg>
+)
+
+export const IconSquareRootX = () => (
+  <Svg>
+    <path d='M13 12h1c1 0 1 1 2.016 3.527c.984 2.473 .984 3.473 1.984 3.473h1' />
+    <path d='M12 19c1.5 0 3 -2 4 -3.5s2.5 -3.5 4 -3.5' />
+    <path d='M3 12h1l3 8l3 -16h10' />
+  </Svg>
+)
+
+export const IconBackspace = () => (
+  <Svg>
+    <path d='M20 6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-11l-5 -5a1.5 1.5 0 0 1 0 -2l5 -5l11 0' />
+    <path d='M12 10l4 4m0 -4l-4 4' />
+  </Svg>
+)
