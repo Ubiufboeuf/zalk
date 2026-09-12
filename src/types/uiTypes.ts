@@ -1,8 +1,9 @@
-import type { CSSProperties } from 'preact'
+import type { CSSProperties, RefObject } from 'preact'
 import type { ReactNode } from 'preact/compat'
 
-export interface UIProps {
+export interface UIProps<T> {
   children?: ReactNode
+  uiRef?: RefObject<T>
   id?: string
   name?: string
   title?: string

@@ -1,7 +1,7 @@
 import type { TargetedMouseEvent } from 'preact'
 import type { UIColors, UIFillMode, UIProps, UISizes, UIShapes, UIWidths } from '../uiTypes'
 
-export interface ButtonProps extends UIProps {
+export interface ButtonProps extends UIProps<HTMLButtonElement> {
   label?: string
   
   color?: UIColors
@@ -17,7 +17,7 @@ export interface ButtonProps extends UIProps {
   onClick?: (event: TargetedMouseEvent<HTMLButtonElement>) => void
 }
 
-export interface ButtonLinkProps extends UIProps {
+export interface ButtonLinkProps extends UIProps<HTMLButtonElement> {
   href?: string
   label?: string
   
