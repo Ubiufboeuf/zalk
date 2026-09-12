@@ -19,6 +19,7 @@ export function Input () {
     <label class='w-full h-12 mb-10 px-6 flex items-center'>
       <input
         ref={inputRef}
+        id='calc-input'
         onInput={handleInput}
         value={'8+6'}
         class='h-full w-full text-right text-3xl'
