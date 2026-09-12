@@ -40,10 +40,14 @@ export function CalcButtons () {
   return (
     <div class='h-fit w-full p-4 pb-6'>
       <div class='h-full w-full grid grid-cols-4 grid-rows-5 gap-3 gap-y-2'>
-        { buttons.map(({ id, color, value, label: Label }) => (
-          <CalcButton key={id} class='w-full aspect-square outline outline-white/50' color={color}>
-            {Label ? <Label /> : value}
-          </CalcButton>
+        { buttons.map(({ id, color, value, label }) => (
+          <CalcButton
+            key={id}
+            class='w-full aspect-square outline outline-white/50'
+            color={color}
+            value={value}
+            label={label}
+          />
         )) }
       </div>
     </div>
