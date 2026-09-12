@@ -2,13 +2,13 @@
 import { Result } from '@/components/calc/Result';
 import Layout from '../layouts/Layout.astro';
 import { CalcButtons } from '@/components/calc/CalcButtons';
-import { Input } from '@/components/calc/Input';
+import { Operation } from '@/components/calc/Operation';
 import { ActionButtons } from '@/components/calc/ActionButtons';
 ---
 
 <Layout class='flex justify-center'>
   <main class='flex flex-col justify-end h-full max-w-full aspect-9/19.5 overflow-hidden'>
-    <Input client:load />
+    <Operation client:load />
     <Result client:load />
     <ActionButtons client:load />
 
