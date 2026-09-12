@@ -1,6 +1,9 @@
 ---
+import { Result } from '@/components/calc/Result';
 import Layout from '../layouts/Layout.astro';
 import { CalcButtons } from '@/components/calc/CalcButtons';
+import { Input } from '@/components/calc/Input';
+import { ActionButtons } from '@/components/calc/ActionButtons';
 ---
 
 <Layout class='flex justify-center'>
@@ -13,8 +16,18 @@ import { CalcButtons } from '@/components/calc/CalcButtons';
     <div class='row-2'>
       <!-- <Result client:load /> -->
     </div>
-    
+
+    <div class='row-3'>
+      <ActionButtons client:load />
+    </div>
+
     <div class='row-4'>
+      <div class='w-full h-fit px-4 py-3'>
+        <div class='w-full h-px bg-base-content/20' />
+      </div>
+    </div>
+    
+    <div class='row-5'>
       <CalcButtons client:load />
     </div>
   </main>
