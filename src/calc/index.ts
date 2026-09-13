@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { evaluate } from './evaluate'
 import { parser } from './parser'
 import { tokenize } from './tokenize'
