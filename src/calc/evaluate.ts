@@ -6,11 +6,17 @@ export function evaluate (node: Node): string {
   }
 
   const { value: symbol, leftNode, rightNode } = node
-  if (!leftNode) return ''
   if (!rightNode) return ''
 
-  const left = Number(evaluate(leftNode))
   const right = Number(evaluate(rightNode))
+  
+  if (!leftNode) {
+    if (symbol === '+') return `${right}`
+    if (symbol === '-') return `${-1 * right}`
+    return ''
+  }
+
+  const left = Number(evaluate(leftNode))
 
   if (symbol === '*') return `${left * right}`
   if (symbol === '/') return `${left / right}`

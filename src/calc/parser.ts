@@ -19,12 +19,14 @@ export function parser (tokens: string[]): Node {
       throw new Error('Símbolo inválido')
     }
 
+    const left = tokens.slice(0, separatorIndex)
+    const right = tokens.slice(separatorIndex + 1, tokens.length)
     
     const node: SymbolNode = {
       type: 'symbol',
       value: symbol,
-      leftNode: parser(tokens.slice(0, separatorIndex)),
-      rightNode: parser(tokens.slice(separatorIndex + 1, tokens.length))
+      leftNode: left.length ? parser(left) : undefined,
+      rightNode: parser(right)
     }
 
     return node
