@@ -1,3 +1,4 @@
+import { isNumber } from '@/calc'
 import { useCalcStore } from '@/stores/useCalcStore'
 
 export function Result () {
@@ -8,7 +9,7 @@ export function Result () {
   return (
     <div class='h-12 mb-4 w-full flex items-center px-6 overflow-x-auto overflow-y-hidden scrollbar-thin'>
       <output class='w-full min-w-fit text-lg text-base-content/60 line-clamp-1 text-right'>
-        {output}
+        {isNumber(output) && output}
       </output>
     </div>
   )
