@@ -4,7 +4,9 @@ import { parser } from './parser'
 import { tokenize } from './tokenize'
 
 const symbols = ['+', '-', '*', '/', '(', ')'] as const
+const symbolsNotParen = ['+', '-', '*', '/'] as const
 export type Symbol = typeof symbols[number]
+export type SymbolNotParen = typeof symbols[number]
 
 export interface NumberNode {
   type: 'number'
@@ -27,6 +29,7 @@ export interface SymbolNode {
 export type Node = NumberNode | UnaryNode | SymbolNode
 
 export const isSymbol = (str: any): str is Symbol => symbols.includes(str)
+export const isSymbolNotParen = (str: any): str is SymbolNotParen => symbolsNotParen.includes(str)
 export function calc (operation: string): string {
   const tokens = tokenize(operation)
   const tree = parser(tokens)

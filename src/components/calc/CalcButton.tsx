@@ -4,6 +4,7 @@ import { Keybinds } from '../Keybinds'
 import type { ComponentChildren } from 'preact'
 import { useRef, useState } from 'preact/hooks'
 import { useCalcStore } from '@/stores/useCalcStore'
+import { isSymbolNotParen } from '@/calc'
 
 interface Props {
   value: string
@@ -52,6 +53,11 @@ export function CalcButton ({ value, label: Label, color, class: className = '' 
 
     const valueLeftPart = operation.slice(0, cursor)
     const valueRightPart = operation.slice(cursor)
+
+    if (isSymbolNotParen(value) && isSymbolNotParen(valueLeftPart.at(-1))) {
+      console.warn('No se pueden usar dos símbolos seguidos sin paréntesis o números en medio')
+      return
+    }
 
     const newValue = `${valueLeftPart}${value}${valueRightPart}`
 
