@@ -27,7 +27,9 @@ export function CalcButton ({ value, label: Label, color, class: className = '' 
     const button = buttonRef.current
     if (!button) return
 
-    button.click()
+    try {
+      button.click()
+    } catch {/* empty */}
     setIsPressed(true)
   }
 
@@ -36,7 +38,9 @@ export function CalcButton ({ value, label: Label, color, class: className = '' 
     if (!button) return
 
     releasingRef.current = true
-    button.click()
+    try {
+      button.click()
+    } catch {/* empty */}
     releasingRef.current = false
     setIsPressed(false)
   }
@@ -75,7 +79,7 @@ export function CalcButton ({ value, label: Label, color, class: className = '' 
       selected={isPressed}
       onClick={handleClick}
     >
-      <Keybinds keys={value} onBind={handleBind} onRelease={handleRelease} hidden />
+      <Keybinds keys={value} onBind={handleBind} onRelease={handleRelease} relax='any-special' hidden />
       {Label ? <Label /> : value}
     </Button>
   )

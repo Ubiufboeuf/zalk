@@ -7,6 +7,7 @@ interface KeybindsProps {
   onBind?: (event: KeyboardEvent) => void
   onRelease?: (event: KeyboardEvent) => void
   when?: boolean | (() => boolean)
+  relax?: 'any-special'
   class?: string
   hidden?: boolean
 }
@@ -19,7 +20,7 @@ const KEYBIND_SIZES: Record<UISizes, string> = {
   xl: 'kbd-xl'
 }
 
-export function Keybinds ({ keys, size = 'sm', onBind, onRelease, when = true, class: className = '', hidden }: KeybindsProps) {
+export function Keybinds ({ keys, size = 'sm', onBind, onRelease, when = true, relax, class: className = '', hidden }: KeybindsProps) {
   const kbdSize = size ? KEYBIND_SIZES[size] : ''
   
   useEffect(() => {
@@ -27,20 +28,24 @@ export function Keybinds ({ keys, size = 'sm', onBind, onRelease, when = true, c
       const isAllowed = typeof when === 'function' ? when() : when
       if (!isAllowed) return
       
-      const keyArray = keys.toLowerCase().split(/[\s+]+/)
-      
+      const keyArray = keys.toLowerCase().split(/[\s]+/)
+
       const requiresCtrl = keyArray.includes('ctrl') || keyArray.includes('control')
       const requiresShift = keyArray.includes('shift')
       const requiresAlt = keyArray.includes('alt')
       const requiresMeta = keyArray.includes('cmd') || keyArray.includes('meta') || keyArray.includes('command')
+     
+      let mainKeys = [...keyArray]
 
-      if (event.ctrlKey !== requiresCtrl) return
-      if (event.shiftKey !== requiresShift) return
-      if (event.altKey !== requiresAlt) return
-      if (event.metaKey !== requiresMeta) return
-
-      const modifierNames = ['ctrl', 'control', 'shift', 'alt', 'cmd', 'meta', 'command']
-      const mainKeys = keyArray.filter(k => !modifierNames.includes(k))
+      if (relax !== 'any-special') {
+        if (event.ctrlKey !== requiresCtrl) return
+        if (event.shiftKey !== requiresShift) return
+        if (event.altKey !== requiresAlt) return
+        if (event.metaKey !== requiresMeta) return
+        
+        const modifierNames = ['ctrl', 'control', 'shift', 'alt', 'cmd', 'meta', 'command']
+        mainKeys = keyArray.filter(k => !modifierNames.includes(k))
+      }
 
       if (mainKeys.includes(event.key.toLowerCase())) {
         event.preventDefault()
@@ -52,20 +57,23 @@ export function Keybinds ({ keys, size = 'sm', onBind, onRelease, when = true, c
       const isAllowed = typeof when === 'function' ? when() : when
       if (!isAllowed) return
       
-      const keyArray = keys.toLowerCase().split(/[\s+]+/)
+      const keyArray = keys.toLowerCase().split(/[\s]+/)
       
       const requiresCtrl = keyArray.includes('ctrl') || keyArray.includes('control')
       const requiresShift = keyArray.includes('shift')
       const requiresAlt = keyArray.includes('alt')
       const requiresMeta = keyArray.includes('cmd') || keyArray.includes('meta') || keyArray.includes('command')
+      let mainKeys = [...keyArray]
 
-      if (event.ctrlKey !== requiresCtrl) return
-      if (event.shiftKey !== requiresShift) return
-      if (event.altKey !== requiresAlt) return
-      if (event.metaKey !== requiresMeta) return
-
-      const modifierNames = ['ctrl', 'control', 'shift', 'alt', 'cmd', 'meta', 'command']
-      const mainKeys = keyArray.filter(k => !modifierNames.includes(k))
+      if (relax !== 'any-special') {
+        if (event.ctrlKey !== requiresCtrl) return
+        if (event.shiftKey !== requiresShift) return
+        if (event.altKey !== requiresAlt) return
+        if (event.metaKey !== requiresMeta) return
+        
+        const modifierNames = ['ctrl', 'control', 'shift', 'alt', 'cmd', 'meta', 'command']
+        mainKeys = keyArray.filter(k => !modifierNames.includes(k))
+      }
 
       if (mainKeys.includes(event.key.toLowerCase())) {
         event.preventDefault()
