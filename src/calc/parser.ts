@@ -1,63 +1,119 @@
-import type { Node, NumberNode, SymbolNode } from './index'
-import { isSymbol } from './index'
+import { isSymbol, type Node } from './index'
 
+type ParseResult = Node
+
+// Niveles de prioridad de menor a mayor (mayor el número, mayor la prioridad)
 export function parser (tokens: string[]): Node {
-  if (tokens[0] === '(' && tokens[tokens.length - 1] === ')') {
-     return parser(tokens.slice(1, -1))
-  }
-  
-  let sepLevel = 0
-  const separatorIndex = tokens.findIndex((t) => {
-    if (t === '(') sepLevel++
-    if (t === ')') sepLevel--
-    return sepLevel === 0 && (t === '+' || t === '-')
-  })
-  
-  if (separatorIndex !== -1) {
-    const symbol = tokens[separatorIndex]
-    if (!isSymbol(symbol)) {
-      throw new Error('Símbolo inválido')
-    }
+  const ast = parseAdditive(tokens)
+  return ast
+}
 
-    const left = tokens.slice(0, separatorIndex)
-    const right = tokens.slice(separatorIndex + 1, tokens.length)
+// Nivel de Prioridad 1
+function parseAdditive (tokens: string[]): ParseResult {
+  let depth = 0
+  const additiveIndex = tokens.findLastIndex((t, i) => {
+    // Están invertidos por ser find-last
+    if (t === '(') {
+      depth--
+      return false
+    }
+    if (t === ')') {
+      depth++
+      return false
+    }
     
-    const node: SymbolNode = {
-      type: 'symbol',
-      value: symbol,
-      leftNode: left.length ? parser(left) : undefined,
-      rightNode: parser(right)
-    }
-
-    return node
-  }
-  
-  let symbLevel = 0
-  const symbolIndex = tokens.findIndex((t) => {
-    if (t === '(') symbLevel++
-    if (t === ')') symbLevel--
-    return symbLevel === 0 && (t === '*' || t === '/')
+    return depth === 0 &&  i > 0 && Boolean(t.match(/[+-]/))
   })
 
-  if (symbolIndex === -1) {
-    const node: NumberNode = {
-      type: 'number',
-      value: tokens[0]
-    }
-
-    return node
+  if (additiveIndex === -1) {
+    return parseMultiplicative(tokens)
   }
-  
-  const symbol = tokens[symbolIndex]
+
+  const symbol = tokens[additiveIndex]
   if (!isSymbol(symbol)) {
     throw new Error('Símbolo inválido')
   }
+  
+  const left = tokens.slice(0, additiveIndex)
+  const right = tokens.slice(additiveIndex + 1)
 
-  const node: SymbolNode = {
+  const node: Node = {
     type: 'symbol',
     value: symbol,
-    leftNode: parser(tokens.slice(0, symbolIndex)),
-    rightNode: parser(tokens.slice(symbolIndex + 1, tokens.length))
+    leftNode: left.length ? parseAdditive(left) : undefined,
+    rightNode: parseMultiplicative(right)
+  }
+  
+  return node
+}
+
+// Nivel de Prioridad 2
+function parseMultiplicative (tokens: string[]): ParseResult {
+  let depth = 0
+  const multiplicativeIndex = tokens.findLastIndex((t, i) => {
+    // También invertidos por ser find-last
+    if (t === '(') {
+      depth--
+      return false
+    }
+    if (t === ')') {
+      depth++
+      return false
+    }
+
+    return depth === 0 && i > 0 && Boolean(t.match(/[*/]/))
+  })
+
+  if (multiplicativeIndex === -1) {
+    return parseUnary(tokens)
+  }
+
+  const symbol = tokens[multiplicativeIndex]
+  if (!isSymbol(symbol)) {
+    throw new Error('Símbolo inválido')
+  }
+  
+  const left = tokens.slice(0, multiplicativeIndex)
+  const right = tokens.slice(multiplicativeIndex + 1)
+
+  const node: Node = {
+    type: 'symbol',
+    value: symbol,
+    leftNode: parseMultiplicative(left),
+    rightNode: parseUnary(right)
+  }
+
+  return node
+}
+
+// Nivel de Prioridad 3
+function parseUnary (tokens: string[]): ParseResult {
+  if (tokens[0] === '+' || tokens[0] === '-') {
+    const node: Node = {
+      type: 'unary',
+      value: tokens[0],
+      node: parsePrimary(tokens.slice(1))
+    }
+
+    return node
+  }
+    
+  return parsePrimary(tokens)
+}
+
+// Nivel de Prioridad 4
+function parsePrimary (tokens: string[]): ParseResult {
+  const firstToken = tokens[0]
+  const lastToken = tokens[tokens.length - 1]
+
+  if (firstToken === '(' && lastToken === ')') {
+    const innerTokens = tokens.slice(1, -1)
+    return parseAdditive(innerTokens)
+  }
+
+  const node: Node = {
+    type: 'number',
+    value: firstToken
   }
 
   return node

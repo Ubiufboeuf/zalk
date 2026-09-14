@@ -11,13 +11,20 @@ export interface NumberNode {
   value: string
 }
 
+export interface UnaryNode {
+  type: 'unary'
+  node: Node | undefined
+  value: Symbol | undefined
+}
+
 export interface SymbolNode {
   type: 'symbol'
   leftNode: Node | undefined
   rightNode: Node | undefined
   value: Symbol | undefined
 }
-export type Node = NumberNode | SymbolNode
+
+export type Node = NumberNode | UnaryNode | SymbolNode
 
 export const isSymbol = (str: any): str is Symbol => symbols.includes(str)
 export function calc (operation: string): string {

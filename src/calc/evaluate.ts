@@ -5,7 +5,21 @@ export function evaluate (node: Node): string {
     return node.value
   }
 
-  const { value: symbol, leftNode, rightNode } = node
+  const { value: symbol } = node
+
+  if (node.type === 'unary') {
+    const { node: innerNode, value: symbol } = node
+    if (!innerNode) return ''
+
+    const value = Number(evaluate(innerNode))
+   
+    if (symbol === '+') return `${value}`
+    if (symbol === '-') return `${-1 * value}`
+
+    return ''
+  }
+  
+  const { leftNode, rightNode } = node
   if (!rightNode) return ''
 
   const right = Number(evaluate(rightNode))
