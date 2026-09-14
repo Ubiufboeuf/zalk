@@ -16,7 +16,7 @@ export function Operation () {
   function parseOperation (operation: string | undefined) {
     if (!operation) return
     return operation
-      .replace(/\*/g, (c) => symbols[c])
+      .replace(/\*|\//g, (c) => symbols[c])
   }
   
   useEffect(() => {
