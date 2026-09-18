@@ -20,7 +20,10 @@ export function Operation () {
   }
   
   useEffect(() => {
-    if (!operation) return
+    if (!operation) {
+      setResult('')
+      return
+    }
 
     const result = calc(operation)
     setResult(result)
