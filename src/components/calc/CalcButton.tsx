@@ -5,8 +5,9 @@ import type { ComponentChildren } from 'preact'
 import { useRef, useState } from 'preact/hooks'
 import { useCalcStore } from '@/stores/useCalcStore'
 import { isSymbolNotParen } from '@/calc'
+import type { ButtonProps } from '@/types/ui/buttonTypes'
 
-interface Props {
+interface Props extends Omit<ButtonProps, 'label'> {
   value: string
   label?: () => ComponentChildren
   binds?: string[]
@@ -14,7 +15,10 @@ interface Props {
   class?: string
 }
 
-export function CalcButton ({ value, label: Label, color, binds, class: className = '' }: Props) {
+export function CalcButton ({
+  value, label: Label, color, binds, class: className = '',
+  size, shape, fill
+}: Props) {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const releasingRef = useRef(false)
 
@@ -23,7 +27,7 @@ export function CalcButton ({ value, label: Label, color, binds, class: classNam
   const setOperation = useCalcStore((state) => state.setOperation)
   
   function handleBind (e: KeyboardEvent) {
-    if (e.repeat) return
+    if (e.key.toLowerCase() !== 'backspace' && e.repeat) return
     
     const button = buttonRef.current
     if (!button) return
@@ -50,15 +54,24 @@ export function CalcButton ({ value, label: Label, color, binds, class: classNam
     if (releasingRef.current) return
 
     if (!operation) {
-      setOperation(value)
+      if (!isNaN(Number(value)) || value === '.') setOperation(value)
+      else setOperation('')
       return
     }
-    
+
     const cursor = operation.length
 
     const valueLeftPart = operation.slice(0, cursor)
     const valueRightPart = operation.slice(cursor)
 
+    if (value === 'backspace') {
+      const valueLeftPart = operation.slice(0, cursor - 1)
+      const newValue = `${valueLeftPart}${valueRightPart}`
+      setOperation(newValue)
+      
+      return
+    }
+    
     if (isSymbolNotParen(value) && isSymbolNotParen(valueLeftPart.at(-1))) {
       console.warn('No se pueden usar dos símbolos seguidos sin paréntesis o números en medio')
       return
@@ -72,10 +85,10 @@ export function CalcButton ({ value, label: Label, color, binds, class: classNam
   return (
     <Button
       uiRef={buttonRef}
-      size='xl'
-      shape='circle'
+      size={size}
+      shape={shape}
       color={color}
-      fill={'soft'}
+      fill={fill}
       class={`${className} w-auto h-auto outline-0`}
       selected={isPressed}
       onClick={handleClick}

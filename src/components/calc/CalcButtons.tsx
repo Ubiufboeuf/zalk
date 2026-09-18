@@ -49,6 +49,10 @@ export function CalcButtons () {
             value={value}
             label={label}
             binds={binds}
+
+            size='xl'
+            shape='circle'
+            fill='soft'
           />
         )) }
       </div>
