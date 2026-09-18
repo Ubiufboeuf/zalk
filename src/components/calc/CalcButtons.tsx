@@ -8,14 +8,15 @@ import { IconCross, IconDivide, IconEquals, IconMinus, IconParen, IconPercentage
 interface Button {
   id: string
   value: string
+  binds?: string[]
   label?: () => ComponentChildren
   color?: UIColors
 }
 
 let i = 0
 const buttons: Button[] = [
-  { id: `${i++}`, value: 'clear', label: () => 'C', color: 'secondary' },
-  { id: `${i++}`, value: 'paren', label: () => <Icon class='size-6'><IconParen /></Icon>, color: 'secondary' },
+  { id: `${i++}`, value: 'clear', binds: ['c'], label: () => 'C', color: 'secondary' },
+  { id: `${i++}`, value: 'paren', binds: ['(', ')'], label: () => <Icon class='size-6'><IconParen /></Icon>, color: 'secondary' },
   { id: `${i++}`, value: '%', label: () => <Icon class='size-6'><IconPercentage /></Icon>, color: 'secondary' },
   { id: `${i++}`, value: '/', label: () => <Icon class='size-6'><IconDivide /></Icon>, color: 'neutral' },
   { id: `${i++}`, value: '7' },
@@ -40,13 +41,14 @@ export function CalcButtons () {
   return (
     <div class='h-fit w-full p-4 pb-6'>
       <div class='h-full w-full grid grid-cols-4 grid-rows-5 gap-3 gap-y-2'>
-        { buttons.map(({ id, color, value, label }) => (
+        { buttons.map(({ id, color, value, label, binds }) => (
           <CalcButton
             key={id}
             class='w-full aspect-square outline outline-white/50'
             color={color}
             value={value}
             label={label}
+            binds={binds}
           />
         )) }
       </div>

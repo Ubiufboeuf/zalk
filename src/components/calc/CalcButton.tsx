@@ -9,11 +9,12 @@ import { isSymbolNotParen } from '@/calc'
 interface Props {
   value: string
   label?: () => ComponentChildren
+  binds?: string[]
   color?: UIColors
   class?: string
 }
 
-export function CalcButton ({ value, label: Label, color, class: className = '' }: Props) {
+export function CalcButton ({ value, label: Label, color, binds, class: className = '' }: Props) {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const releasingRef = useRef(false)
 
@@ -79,7 +80,10 @@ export function CalcButton ({ value, label: Label, color, class: className = '' 
       selected={isPressed}
       onClick={handleClick}
     >
-      <Keybinds keys={value} onBind={handleBind} onRelease={handleRelease} relax='any-special' hidden />
+      { binds
+        ? binds.map((b, i) => <Keybinds key={`${i}-bind-${b}`} keys={b} onBind={handleBind} onRelease={handleRelease} relax='any-special' hidden />)
+        : <Keybinds keys={value} onBind={handleBind} onRelease={handleRelease} relax='any-special' hidden />
+      }
       {Label ? <Label /> : value}
     </Button>
   )
