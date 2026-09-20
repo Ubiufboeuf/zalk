@@ -6,6 +6,9 @@ interface CalcStore {
   
   result: string | undefined
   setResult: (result: string | undefined) => void
+
+  cursorIndex: number
+  setCursorIndex: (cursorIndex: number) => void
 }
 
 export const useCalcStore = create<CalcStore>((set) => ({
@@ -13,7 +16,10 @@ export const useCalcStore = create<CalcStore>((set) => ({
   setOperation: (operation) => set({ operation }),
   
   result: undefined,
-  setResult: (result) => set({ result })
+  setResult: (result) => set({ result }),
+
+  cursorIndex: 0,
+  setCursorIndex: (cursorIndex) => set({ cursorIndex })
 }))
 
 export const miniStore = {

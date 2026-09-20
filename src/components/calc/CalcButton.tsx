@@ -27,6 +27,8 @@ export function CalcButton ({
   const operation = useCalcStore((state) => state.operation)
   const setOperation = useCalcStore((state) => state.setOperation)
   const setResult = useCalcStore((state) => state.setResult)
+  const cursorIndex = useCalcStore((state) => state.cursorIndex)
+  const setCursorIndex = useCalcStore((state) => state.setCursorIndex)
   
   function handleBind (e: KeyboardEvent) {
     if (e.key.toLowerCase() !== 'backspace' && e.repeat) return
@@ -61,7 +63,7 @@ export function CalcButton ({
       return
     }
 
-    const cursor = operation.length
+    const cursor = cursorIndex
 
     const valueLeftPart = operation.slice(0, cursor)
     const valueRightPart = operation.slice(cursor)
@@ -72,6 +74,7 @@ export function CalcButton ({
       
       miniStore.canChangeResult = false
       setOperation(result)
+      setCursorIndex(result.length)
       return
     }
     
@@ -85,19 +88,15 @@ export function CalcButton ({
     
     if (value === 'paren') {
       const parenOpen = parenOpenRef.current
-      let newValue = operation
-      if (parenOpen) {
-        newValue += ')'
-        parenOpenRef.current = false
-      } else {
-        newValue += '('
-        parenOpenRef.current = true
-      }
-
+      const parenChar = parenOpen ? ')' : '('
+      
+      const newValue = `${valueLeftPart}${parenChar}${valueRightPart}`
+      
       setOperation(newValue)
+      setCursorIndex(cursor + 1)
+      parenOpenRef.current = !parenOpen
       return
     }
-    
     if (isSymbolNotParen(value) && isSymbolNotParen(valueLeftPart.at(-1))) {
       console.warn('No se pueden usar dos símbolos seguidos sin paréntesis o números en medio')
       return
@@ -106,6 +105,7 @@ export function CalcButton ({
     const newValue = `${valueLeftPart}${value}${valueRightPart}`
 
     setOperation(newValue)
+    setCursorIndex(cursor + 1)
   }
 
   useEffect(() => {
