@@ -2,22 +2,60 @@
 import '../styles/global.css'
 
 interface Props {
-	class?: string
+  title?: string
+  description?: string
+  class?: string
 }
 
-const { class: className = '' } = Astro.props
+const { 
+  title = 'Calculadora (zalk) - Ubiufboeuf', 
+  description = 'Calculadora web moderna y accesible inspirada en el diseño de Samsung.',
+  class: className = '' 
+} = Astro.props
+
+const lastUpdate = new Date().toISOString().split('T')[0]
 ---
 
 <!doctype html>
-<html lang='es'>
-	<head>
-		<meta charset='utf-8' />
-		<meta name='viewport' content='width=device-width' />
-		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-		<link rel='icon' href='/favicon.ico' />
-		<title>zalk - Ubiufboeuf</title>
-	</head>
-	<body class={className}>
-		<slot />
-	</body>
+<html lang='es' class='h-full w-full flex justify-center text-text'>
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <link rel='icon' href='/favicon.ico' />
+    <title>{title}</title>
+
+    <meta name="description" content={description} />
+    <meta name="author" content="Federico Artencio" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zalk-dun.vercel.app/">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <!-- Imagen principal (escritorio / general) -->
+    <meta property="og:image" content="https://zalk-dun.vercel.app/large.png">
+    <meta property="og:image:alt" content="Vista previa de zalk (Escritorio)">
+    <!-- Imagen secundaria (versión celular) -->
+    <meta property="og:image" content="https://zalk-dun.vercel.app/small.png">
+    <meta property="og:image:alt" content="Vista previa de zalk (Móvil)">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://zalk-dun.vercel.app/">
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content="https://zalk-dun.vercel.app/large.png">
+  
+    <meta property="article:published_time" content="2026-09-01">
+    <meta property="article:modified_time" content={lastUpdate}>
+    
+    <meta name="theme-color" content="#232332">
+
+    <!-- Tipografía optimizada -->
+    <link rel='preload' href='/Inter.woff2' as='font' type='font/woff2' crossorigin />
+  </head>
+  <body class={`max-w-5xl w-full h-fit min-h-full bg-base ${className}`}>
+    <slot />
+  </body>
 </html>
