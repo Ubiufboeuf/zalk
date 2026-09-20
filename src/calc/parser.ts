@@ -106,6 +106,14 @@ function parsePrimary (tokens: string[]): ParseResult {
   const firstToken = tokens[0]
   const lastToken = tokens[tokens.length - 1]
 
+  if (lastToken === '%') {
+    const innerTokens = tokens.slice(0, -1)
+    return {
+      type: 'percentage',
+      value: parsePrimary(innerTokens)
+    }
+  }
+
   if (firstToken === '(' && lastToken === ')') {
     const innerTokens = tokens.slice(1, -1)
     return parseAdditive(innerTokens)

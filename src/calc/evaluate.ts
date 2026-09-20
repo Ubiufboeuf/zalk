@@ -4,7 +4,12 @@ export function evaluate (node: Node): string {
   if (node.type === 'number') {
     return node.value
   }
-
+  
+  if (node.type === 'percentage') {
+    const val = Number(evaluate(node.value))
+    return `${val / 100}`
+  }
+  
   const { value: symbol } = node
 
   if (node.type === 'unary') {
@@ -34,8 +39,22 @@ export function evaluate (node: Node): string {
 
   if (symbol === '*') return `${left * right}`
   if (symbol === '/') return `${left / right}`
-  if (symbol === '+') return `${left + right}`
-  if (symbol === '-') return `${left - right}`
+
+  if (symbol === '+') {
+    if (rightNode.type === 'percentage') {
+      const percentVal = Number(evaluate(rightNode.value))
+      return `${left + (left * percentVal / 100)}`
+    }
+    return `${left + right}`
+  }
+
+  if (symbol === '-') {
+    if (rightNode.type === 'percentage') {
+      const percentVal = Number(evaluate(rightNode.value))
+      return `${left - (left * percentVal / 100)}`
+    }
+    return `${left - right}`
+  }
 
   return ''
 }
