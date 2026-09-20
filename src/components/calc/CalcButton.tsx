@@ -93,6 +93,12 @@ export function CalcButton ({
       return
     }
 
+    if (value === 'clear') {
+      setOperation('')
+
+      return
+    }
+
     if (value === 'backspace') {
       const valueLeftPart = operation.slice(0, cursor - 1)
       const newValue = `${valueLeftPart}${valueRightPart}`
