@@ -104,6 +104,15 @@ export function Operation () {
       setResult('')
       return
     }
+
+    const openCount = (operation.match(/\(/g) || []).length
+    const closeCount = (operation.match(/\)/g) || []).length
+
+    if (openCount !== closeCount) {
+      setResult('')
+      return
+    }
+
     const result = calc(operation)
     setResult(result)
   }, [operation])

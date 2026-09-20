@@ -15,13 +15,23 @@ interface Props extends Omit<ButtonProps, 'label'> {
   class?: string
 }
 
+function hasOpenParen (value: string) {
+  let level = 0
+
+  for (const char of value) {
+    if (char === '(') level++
+    else if (char === ')') level--
+  }
+
+  return level > 0
+}
+
 export function CalcButton ({
   value, label: Label, color, binds, class: className = '',
   size, shape, fill
 }: Props) {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const releasingRef = useRef(false)
-  const parenOpenRef = useRef(false)
 
   const [isPressed, setIsPressed] = useState(false)
   const operation = useCalcStore((state) => state.operation)
@@ -29,10 +39,10 @@ export function CalcButton ({
   const setResult = useCalcStore((state) => state.setResult)
   const cursorIndex = useCalcStore((state) => state.cursorIndex)
   const setCursorIndex = useCalcStore((state) => state.setCursorIndex)
-  
+
   function handleBind (e: KeyboardEvent) {
     if (e.key.toLowerCase() !== 'backspace' && e.repeat) return
-    
+
     const button = buttonRef.current
     if (!button) return
 
@@ -69,34 +79,39 @@ export function CalcButton ({
     const valueRightPart = operation.slice(cursor)
 
     if (value === '=') {
+      const openCount = (operation.match(/\(/g) || []).length
+      const closeCount = (operation.match(/\)/g) || []).length
+
+      if (openCount !== closeCount) return
+
       const result = calc(operation)
       if (isNaN(Number(result))) return
-      
+
       miniStore.canChangeResult = false
       setOperation(result)
       setCursorIndex(result.length)
       return
     }
-    
+
     if (value === 'backspace') {
       const valueLeftPart = operation.slice(0, cursor - 1)
       const newValue = `${valueLeftPart}${valueRightPart}`
+
       setOperation(newValue)
-      
+
       return
     }
-    
+
     if (value === 'paren') {
-      const parenOpen = parenOpenRef.current
-      const parenChar = parenOpen ? ')' : '('
-      
+      const parenChar = hasOpenParen(valueLeftPart) ? ')' : '('
       const newValue = `${valueLeftPart}${parenChar}${valueRightPart}`
-      
+
       setOperation(newValue)
       setCursorIndex(cursor + 1)
-      parenOpenRef.current = !parenOpen
+
       return
     }
+
     if (isSymbolNotParen(value) && isSymbolNotParen(valueLeftPart.at(-1))) {
       console.warn('No se pueden usar dos símbolos seguidos sin paréntesis o números en medio')
       return
@@ -114,7 +129,7 @@ export function CalcButton ({
       miniStore.canChangeResult = true
     }
   }, [operation])
-  
+
   return (
     <Button
       uiRef={buttonRef}
@@ -127,7 +142,16 @@ export function CalcButton ({
       onClick={handleClick}
     >
       { binds
-        ? binds.map((b, i) => <Keybinds key={`${i}-bind-${b}`} keys={b} onBind={handleBind} onRelease={handleRelease} relax='any-special' hidden />)
+        ? binds.map((b, i) => (
+          <Keybinds
+            key={`${i}-bind-${b}`}
+            keys={b}
+            onBind={handleBind}
+            onRelease={handleRelease}
+            relax='any-special'
+            hidden
+          />
+        ))
         : <Keybinds keys={value} onBind={handleBind} onRelease={handleRelease} relax='any-special' hidden />
       }
       {Label ? <Label /> : value}
