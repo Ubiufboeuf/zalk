@@ -21,6 +21,7 @@ export function CalcButton ({
 }: Props) {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const releasingRef = useRef(false)
+  const parenOpenRef = useRef(false)
 
   const [isPressed, setIsPressed] = useState(false)
   const operation = useCalcStore((state) => state.operation)
@@ -79,6 +80,21 @@ export function CalcButton ({
       const newValue = `${valueLeftPart}${valueRightPart}`
       setOperation(newValue)
       
+      return
+    }
+    
+    if (value === 'paren') {
+      const parenOpen = parenOpenRef.current
+      let newValue = operation
+      if (parenOpen) {
+        newValue += ')'
+        parenOpenRef.current = false
+      } else {
+        newValue += '('
+        parenOpenRef.current = true
+      }
+
+      setOperation(newValue)
       return
     }
     
