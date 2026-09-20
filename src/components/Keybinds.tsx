@@ -24,6 +24,8 @@ export function Keybinds ({ keys, size = 'sm', onBind, onRelease, when = true, r
   const kbdSize = size ? KEYBIND_SIZES[size] : ''
   
   useEffect(() => {
+    if (!onBind) return
+
     function handleKeyDown (event: KeyboardEvent) {
       const isAllowed = typeof when === 'function' ? when() : when
       if (!isAllowed) return
@@ -48,44 +50,30 @@ export function Keybinds ({ keys, size = 'sm', onBind, onRelease, when = true, r
       }
 
       if (mainKeys.includes(event.key.toLowerCase())) {
+        if (event.repeat) return
         event.preventDefault()
         onBind?.(event)
+
+        if (onRelease) {
+          const targetKey = event.key.toLowerCase()
+          const targetCode = event.code
+
+          function handleSpecificKeyUp (upEvent: KeyboardEvent) {
+            if (upEvent.key.toLowerCase() === targetKey || upEvent.code === targetCode) {
+              upEvent.preventDefault()
+              onRelease?.(upEvent)
+              window.removeEventListener('keyup', handleSpecificKeyUp)
+            }
+          }
+
+          window.addEventListener('keyup', handleSpecificKeyUp)
+        }
       }
     }
 
-    function handleKeyUp (event: KeyboardEvent) {
-      const isAllowed = typeof when === 'function' ? when() : when
-      if (!isAllowed) return
-      
-      const keyArray = keys.toLowerCase().split(/[\s]+/)
-      
-      const requiresCtrl = keyArray.includes('ctrl') || keyArray.includes('control')
-      const requiresShift = keyArray.includes('shift')
-      const requiresAlt = keyArray.includes('alt')
-      const requiresMeta = keyArray.includes('cmd') || keyArray.includes('meta') || keyArray.includes('command')
-      let mainKeys = [...keyArray]
-
-      if (relax !== 'any-special') {
-        if (event.ctrlKey !== requiresCtrl) return
-        if (event.shiftKey !== requiresShift) return
-        if (event.altKey !== requiresAlt) return
-        if (event.metaKey !== requiresMeta) return
-        
-        const modifierNames = ['ctrl', 'control', 'shift', 'alt', 'cmd', 'meta', 'command']
-        mainKeys = keyArray.filter(k => !modifierNames.includes(k))
-      }
-
-      if (mainKeys.includes(event.key.toLowerCase())) {
-        event.preventDefault()
-        onRelease?.(event)
-      }
-    }
-
-    if (onBind) window.addEventListener('keydown', handleKeyDown)
-    if (onRelease) window.addEventListener('keyup', handleKeyUp)
+    window.addEventListener('keydown', handleKeyDown)
     return () => {
-      if (onBind) window.removeEventListener('keydown', handleKeyDown)
-      if (onRelease) window.removeEventListener('keyup', handleKeyUp)
+      window.removeEventListener('keydown', handleKeyDown)
     }
   }, [keys, onBind, onRelease, when])
 
