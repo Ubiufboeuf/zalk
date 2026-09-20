@@ -11,6 +11,7 @@ interface Button {
   binds?: string[]
   label?: () => ComponentChildren
   color?: UIColors
+  disabled?: boolean
 }
 
 let i = 0
@@ -31,7 +32,7 @@ const buttons: Button[] = [
   { id: `${i++}`, value: '2' },
   { id: `${i++}`, value: '3' },
   { id: `${i++}`, value: '+', label: () => <Icon class='size-6'><IconPlus /></Icon>, color: 'neutral' },
-  { id: `${i++}`, value: 'sign', label: () => <Icon class='size-6'><IconPlusMinus /></Icon> },
+  { id: `${i++}`, value: 'sign', label: () => <Icon class='size-6'><IconPlusMinus /></Icon>, disabled: true },
   { id: `${i++}`, value: '0' },
   { id: `${i++}`, value: '.' },
   { id: `${i++}`, value: '=', binds: ['enter'], label: () => <Icon class='size-6'><IconEquals /></Icon>, color: 'accent' }
@@ -41,7 +42,7 @@ export function CalcButtons () {
   return (
     <div class='h-fit w-full p-4 pb-6'>
       <div class='h-full w-full grid grid-cols-4 grid-rows-5 gap-3 gap-y-2'>
-        { buttons.map(({ id, color, value, label, binds }) => (
+        { buttons.map(({ id, color, value, label, binds, disabled }) => (
           <CalcButton
             key={id}
             class='w-full aspect-square outline outline-white/50'
@@ -53,6 +54,8 @@ export function CalcButtons () {
             size='xl'
             shape='circle'
             fill='soft'
+
+            disabled={disabled}
           />
         )) }
       </div>

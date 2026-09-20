@@ -28,7 +28,7 @@ function hasOpenParen (value: string) {
 
 export function CalcButton ({
   value, label: Label, color, binds, class: className = '',
-  size, shape, fill
+  size, shape, fill, disabled
 }: Props) {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const releasingRef = useRef(false)
@@ -146,6 +146,7 @@ export function CalcButton ({
       class={`${className} w-auto h-auto outline-0`}
       selected={isPressed}
       onClick={handleClick}
+      disabled={disabled}
     >
       { binds
         ? binds.map((b, i) => (
