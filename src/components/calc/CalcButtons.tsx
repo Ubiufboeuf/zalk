@@ -34,7 +34,7 @@ const buttons: Button[] = [
   { id: `${i++}`, value: 'sign', label: () => <Icon class='size-6'><IconPlusMinus /></Icon> },
   { id: `${i++}`, value: '0' },
   { id: `${i++}`, value: '.' },
-  { id: `${i++}`, value: '=', label: () => <Icon class='size-6'><IconEquals /></Icon>, color: 'accent' }
+  { id: `${i++}`, value: '=', binds: ['enter'], label: () => <Icon class='size-6'><IconEquals /></Icon>, color: 'accent' }
 ]
 
 export function CalcButtons () {
