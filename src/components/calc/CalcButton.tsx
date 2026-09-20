@@ -2,9 +2,9 @@ import { Button } from '../ui/Button'
 import type { UIColors } from '@/types/uiTypes'
 import { Keybinds } from '../Keybinds'
 import type { ComponentChildren } from 'preact'
-import { useRef, useState } from 'preact/hooks'
-import { useCalcStore } from '@/stores/useCalcStore'
-import { isSymbolNotParen } from '@/calc'
+import { useEffect, useRef, useState } from 'preact/hooks'
+import { miniStore, useCalcStore } from '@/stores/useCalcStore'
+import { calc, isSymbolNotParen } from '@/calc'
 import type { ButtonProps } from '@/types/ui/buttonTypes'
 
 interface Props extends Omit<ButtonProps, 'label'> {
@@ -25,6 +25,7 @@ export function CalcButton ({
   const [isPressed, setIsPressed] = useState(false)
   const operation = useCalcStore((state) => state.operation)
   const setOperation = useCalcStore((state) => state.setOperation)
+  const setResult = useCalcStore((state) => state.setResult)
   
   function handleBind (e: KeyboardEvent) {
     if (e.key.toLowerCase() !== 'backspace' && e.repeat) return
@@ -64,6 +65,15 @@ export function CalcButton ({
     const valueLeftPart = operation.slice(0, cursor)
     const valueRightPart = operation.slice(cursor)
 
+    if (value === '=') {
+      const result = calc(operation)
+      if (isNaN(Number(result))) return
+      
+      miniStore.canChangeResult = false
+      setOperation(result)
+      return
+    }
+    
     if (value === 'backspace') {
       const valueLeftPart = operation.slice(0, cursor - 1)
       const newValue = `${valueLeftPart}${valueRightPart}`
@@ -81,6 +91,13 @@ export function CalcButton ({
 
     setOperation(newValue)
   }
+
+  useEffect(() => {
+    if (!miniStore.canChangeResult) {
+      setResult('')
+      miniStore.canChangeResult = true
+    }
+  }, [operation])
   
   return (
     <Button

@@ -15,3 +15,7 @@ export const useCalcStore = create<CalcStore>((set) => ({
   result: undefined,
   setResult: (result) => set({ result })
 }))
+
+export const miniStore = {
+  canChangeResult: true
+}
