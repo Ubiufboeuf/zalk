@@ -30,7 +30,7 @@ export function Operation () {
   }
 
   useEffect(() => {
-    setCursorIndex(operation.length)
+    setCursorIndex(Math.min(cursorIndex + 1, operation.length))
   }, [operation])
 
   const handleContainerClick = (e: MouseEvent) => {

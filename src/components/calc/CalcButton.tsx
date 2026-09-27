@@ -100,10 +100,13 @@ export function CalcButton ({
     }
 
     if (value === 'backspace') {
+      if (cursor === 0) return
+      
       const valueLeftPart = operation.slice(0, cursor - 1)
       const newValue = `${valueLeftPart}${valueRightPart}`
 
       setOperation(newValue)
+      setCursorIndex(cursor - 2)
 
       return
     }
@@ -113,7 +116,7 @@ export function CalcButton ({
       const newValue = `${valueLeftPart}${parenChar}${valueRightPart}`
 
       setOperation(newValue)
-      setCursorIndex(cursor + 1)
+      // setCursorIndex(cursor + 1)
 
       return
     }
@@ -126,7 +129,6 @@ export function CalcButton ({
     const newValue = `${valueLeftPart}${value}${valueRightPart}`
 
     setOperation(newValue)
-    setCursorIndex(cursor + 1)
   }
 
   useEffect(() => {

@@ -4,6 +4,8 @@ import type { UIColors } from '@/types/uiTypes'
 import type { ComponentChildren } from 'preact'
 import { Icon } from '../ui/Icon'
 import { IconCross, IconDivide, IconEquals, IconMinus, IconParen, IconPercentage, IconPlus, IconPlusMinus } from '../ui/Icons'
+import { Keybinds } from '../Keybinds'
+import { useCalcStore } from '@/stores/useCalcStore'
 
 interface Button {
   id: string
@@ -39,6 +41,20 @@ const buttons: Button[] = [
 ]
 
 export function CalcButtons () {
+  const cursor = useCalcStore((state) => state.cursorIndex)
+  const setCursor = useCalcStore((state) => state.setCursorIndex)
+  const operation = useCalcStore((state) => state.operation)
+  
+  function moveCursorLeft () {
+    if (cursor === 0) return
+    setCursor(cursor - 1)
+  }
+
+  function moveCursorRight () {
+    if (cursor === operation?.length) return
+    setCursor(cursor + 1)
+  }
+  
   return (
     <div class='h-fit w-full p-4 pb-6'>
       <div class='h-full w-full grid grid-cols-4 grid-rows-5 gap-3 gap-y-2'>
@@ -59,6 +75,9 @@ export function CalcButtons () {
           />
         )) }
       </div>
+
+      <Keybinds keys='arrowleft' onBind={moveCursorLeft} hidden />
+      <Keybinds keys='arrowright' onBind={moveCursorRight} hidden />
     </div>
   )
 }
