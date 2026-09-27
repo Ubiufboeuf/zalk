@@ -18,7 +18,7 @@ interface Button {
 
 let i = 0
 const buttons: Button[] = [
-  { id: `${i++}`, value: 'clear', binds: ['c'], label: () => 'C', color: 'secondary' },
+  { id: `${i++}`, value: 'clear', binds: ['c', 'escape'], label: () => 'C', color: 'secondary' },
   { id: `${i++}`, value: 'paren', binds: ['(', ')'], label: () => <Icon class='size-6'><IconParen /></Icon>, color: 'secondary' },
   { id: `${i++}`, value: '%', label: () => <Icon class='size-6'><IconPercentage /></Icon>, color: 'secondary' },
   { id: `${i++}`, value: '/', label: () => <Icon class='size-6'><IconDivide /></Icon>, color: 'neutral' },
