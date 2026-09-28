@@ -50,7 +50,6 @@ export function Keybinds ({ keys, size = 'sm', onBind, onRelease, when = true, r
       }
 
       if (mainKeys.includes(event.key.toLowerCase())) {
-        if (event.repeat) return
         event.preventDefault()
         onBind?.(event)
 

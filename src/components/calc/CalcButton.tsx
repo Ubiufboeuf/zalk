@@ -41,8 +41,6 @@ export function CalcButton ({
   const setCursorIndex = useCalcStore((state) => state.setCursorIndex)
 
   function handleBind (e: KeyboardEvent) {
-    if (e.key.toLowerCase() !== 'backspace' && e.repeat) return
-
     const button = buttonRef.current
     if (!button) return
 
