@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'preact/hooks'
 import { miniStore, useCalcStore } from '@/stores/useCalcStore'
 import { calc, isSymbolNotParen } from '@/calc'
 import type { ButtonProps } from '@/types/ui/buttonTypes'
+import { saveInHistory } from '@/lib/history'
 
 interface Props extends Omit<ButtonProps, 'label'> {
   value: string
@@ -13,6 +14,7 @@ interface Props extends Omit<ButtonProps, 'label'> {
   binds?: string[]
   color?: UIColors
   class?: string
+  onClick?: () => unknown
 }
 
 function hasOpenParen (value: string) {
@@ -28,7 +30,7 @@ function hasOpenParen (value: string) {
 
 export function CalcButton ({
   value, label: Label, color, binds, class: className = '',
-  size, shape, fill, disabled
+  size, shape, fill, disabled, onClick
 }: Props) {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const releasingRef = useRef(false)
@@ -88,6 +90,7 @@ export function CalcButton ({
       miniStore.canChangeResult = false
       setOperation(result)
       setCursorIndex(result.length)
+      saveInHistory(operation, result)
       return
     }
 
@@ -145,7 +148,7 @@ export function CalcButton ({
       fill={fill}
       class={`${className} w-auto h-auto outline-0`}
       selected={isPressed}
-      onClick={handleClick}
+      onClick={onClick ?? handleClick}
       disabled={disabled}
     >
       { binds

@@ -1,9 +1,10 @@
+import { toggleHistory } from '@/lib/actions'
 import { Icon } from '../ui/Icon'
 import { IconBackspace, IconHistory, IconSquareRootX, IconUnits } from '../ui/Icons'
 import { CalcButton } from './CalcButton'
 
 const actionButtons = [
-  { id: 'history', title: 'Historial', icon: IconHistory, disabled: true },
+  { id: 'history', title: 'Historial', icon: IconHistory, onClick: toggleHistory },
   { id: 'units', title: 'Conversiones', icon: IconUnits, disabled: true },
   { id: 'cientific', title: 'Modo Científica', icon: IconSquareRootX, disabled: true },
   { id: 'backspace', title: 'Borrar', icon: IconBackspace, class: 'ml-auto btn-accent btn-soft **:opacity-100' }
@@ -13,7 +14,7 @@ export function ActionButtons () {
   return (
     <div class='h-9 w-full'>
       <div class='h-full w-full flex items-center gap-3 px-5'>
-        { actionButtons.map(({ id, class: className = '', icon: ButtonIcon, disabled }) => (
+        { actionButtons.map(({ id, class: className = '', icon: ButtonIcon, disabled, onClick }) => (
           <CalcButton
             key={id}
             id={id}
@@ -26,6 +27,7 @@ export function ActionButtons () {
                 <ButtonIcon />
               </Icon>
             )}
+            onClick={onClick}
           />
         )) }
       </div>
