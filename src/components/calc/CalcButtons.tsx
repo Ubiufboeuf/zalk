@@ -44,6 +44,8 @@ export function CalcButtons () {
   const cursor = useCalcStore((state) => state.cursorIndex)
   const setCursor = useCalcStore((state) => state.setCursorIndex)
   const operation = useCalcStore((state) => state.operation)
+  const setOperation = useCalcStore((state) => state.setOperation)
+  const setCursorIndex = useCalcStore((state) => state.setCursorIndex)
   
   function moveCursorLeft () {
     if (cursor === 0) return
@@ -54,7 +56,18 @@ export function CalcButtons () {
     if (cursor === operation?.length) return
     setCursor(cursor + 1)
   }
-  
+
+  function deleteForward () {
+    if (!operation || cursor >= operation.length) return
+
+    const valueLeftPart = operation.slice(0, cursor)
+    const valueRightPart = operation.slice(cursor + 1)
+    const newValue = `${valueLeftPart}${valueRightPart}`
+
+    setOperation(newValue)
+    setCursorIndex(cursor - 1)
+  }
+
   return (
     <div class='h-fit w-full p-4 pb-6'>
       <div class='h-full w-full grid grid-cols-4 grid-rows-5 gap-3 gap-y-2'>
@@ -78,6 +91,7 @@ export function CalcButtons () {
 
       <Keybinds keys='arrowleft' onBind={moveCursorLeft} hidden />
       <Keybinds keys='arrowright' onBind={moveCursorRight} hidden />
+      <Keybinds keys='delete' onBind={deleteForward} hidden />
     </div>
   )
 }
