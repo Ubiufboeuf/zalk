@@ -24,3 +24,9 @@ export function loadHistory () {
   const history = JSON.parse(storedHistory)
   setHistory(history)
 }
+
+export function clearHistory () {
+  const { setHistory } = useCalcStore.getState()
+  localStorage.setItem('zalk:history', '[]')
+  setHistory([])
+}

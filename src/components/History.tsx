@@ -1,6 +1,9 @@
-import { loadHistory } from '@/lib/history'
+import { clearHistory, loadHistory } from '@/lib/history'
 import { useCalcStore } from '@/stores/useCalcStore'
 import { useEffect } from 'preact/hooks'
+import { Button } from './ui/Button'
+import { Icon } from './ui/Icon'
+import { IconErase } from './ui/Icons'
 
 export function History () {
   const operation = useCalcStore((state) => state.operation)
@@ -34,7 +37,14 @@ export function History () {
   return (
     <section class='flex-1 p-4 flex items-end'>
       <div class='h-full w-full border border-base-content/10 card' hidden={!isHistoryVisible}>
-        <h1 class='px-4 pt-4 font-semibold uppercase text-base-content/60 tracking-wider'>Historial</h1>
+        <div class='pt-4 px-4 flex items-center gap-2'>
+          <h1 class='mr-auto font-semibold uppercase text-base-content/60 tracking-wider'>Historial</h1>
+          <Button fill='soft' shape='square' onClick={clearHistory}>
+            <Icon class='size-5'>
+              <IconErase />
+            </Icon>
+          </Button>
+        </div>
         <div class='w-full h-fit px-4 py-3'>
           <div class='w-full h-px bg-base-content/10' />
         </div>
