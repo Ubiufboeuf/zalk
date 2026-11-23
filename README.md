@@ -1,43 +1,39 @@
-# Astro Starter Kit: Minimal
+# Zalk
 
+## Sobre el Proyecto
+
+Zalk es una calculadora web moderna, ligera y de alta precisión, inspirada en la interfaz y fluidez de la clásica calculadora de Samsung.
+Desarrollada con un enfoque minimalista, ofrece respuestas instantáneas y una experiencia de usuario limpia sin dependencias innecesarias.
+
+## Stack Tecnológico
+
+- Framework: Astro & Preact
+- Estilos: Tailwind CSS & DaisyUI
+- Runtime: Bun
+- Lenguaje: TypeScript
+
+## Configuración y Ejecución Local
+
+Recomendable:
+- Tener instalado Bun o pnpm.
+
+### 1. Clonar el repositorio e instalar dependencias
 ```sh
-bun create astro@latest -- --template minimal
+git clone --depth 1 https://github.com/Ubiufboeuf/zalk
+cd zalk
+bun install # pnpm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### 2. Ejecutar en desarrollo
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+Para iniciar el servidor de desarrollo, ejecuta:
+```sh
+bun run dev # pnpm run dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Despliegue
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Zalk está optimizado para despliegues instantáneos y se encuentra desplegado en Vercel por facilidad y comodidad de despliegue y desarrollo.
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Licencia
+Este proyecto está bajo la licencia [LICENSE.md](/LICENSE.md).
