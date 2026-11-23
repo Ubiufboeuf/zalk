@@ -1,6 +1,8 @@
 ---
 import '@/styles/global.css'
 import Theme from '@/components/Theme.astro'
+import { Screen } from '@/components/Screen'
+import { Preview } from '@/components/Preview'
 ---
 
 <html lang='es'>
@@ -24,12 +26,13 @@ import Theme from '@/components/Theme.astro'
 			document.documentElement.setAttribute('data-theme', savedTheme ?? '')
 		</script>
 	</head>
-	<body class='w-full h-full flex flex-col'>
+	<body class='w-full h-full flex flex-col items-center'>
 		<header class='h-14 w-full flex items-center justify-end px-4 p-1'>
 			<Theme />
 		</header>
-		<main>
-			<h1>Zalk</h1>
+		<main class='h-[calc(100%-56px)] w-auto aspect-9/19.5 flex flex-col'>
+			<Screen client:load />
+			<Preview client:load />
 		</main>
 	</body>
 </html>
