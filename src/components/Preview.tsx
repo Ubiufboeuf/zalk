@@ -5,7 +5,7 @@ export function Preview () {
   
   return (
     <div class='w-full h-10'>
-      <output class='h-full w-full flex justify-end items-center'>{result}</output>
+      <output class='h-full w-full flex justify-end items-center text-base-content/60 text-lg'>{result}</output>
     </div>
   )
 }

@@ -15,7 +15,7 @@ export function Screen () {
   }
   
   return (
-    <div class='w-full h-12 mb-12'>
+    <div class='w-full h-12 mb-6'>
       <input
         id='screen'
         class='input h-full w-full text-end text-3xl outline-0 border-0 shadow-none p-0'
