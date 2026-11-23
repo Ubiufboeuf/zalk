@@ -153,3 +153,9 @@ export const IconSun = () => (
     <path d='M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7' />
   </Svg>
 )
+
+export const IconClear = () => (
+  <Svg>
+    <path d='M18 9a5 5 0 0 0 -5 -5h-2a5 5 0 0 0 -5 5v6a5 5 0 0 0 5 5h2a5 5 0 0 0 5 -5' />
+  </Svg>
+)
