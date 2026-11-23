@@ -11,6 +11,38 @@
   font-display: swap;
 }
 
+@custom-variant dark {
+  &:where([data-theme='dark'] *) {
+    @slot;
+  }
+}
+
+@custom-variant shr {
+  @media (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+  @media (pointer: coarse) {
+    &:active {
+      @slot;
+    }
+  }
+}
+
+@custom-variant not-shr {
+  @media (pointer: fine) {
+    &:not(:hover) {
+      @slot;
+    }
+  }
+  @media (pointer: coarse) {
+    &:not(:active) {
+      @slot;
+    }
+  }
+}
+
 :root {
   color-scheme: dark light;
   font-family: Inter, 'Inter', system-ui;
