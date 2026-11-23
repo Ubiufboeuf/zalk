@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "config",
     "styles",
-    "ui"
+    "ui",
+    "deps"
   ]
 }
