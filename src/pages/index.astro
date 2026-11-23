@@ -3,6 +3,7 @@ import '@/styles/global.css'
 import Theme from '@/components/Theme.astro'
 import { Screen } from '@/components/Screen'
 import { Preview } from '@/components/Preview'
+import { Actions } from '@/components/Actions'
 ---
 
 <html lang='es'>
@@ -33,6 +34,7 @@ import { Preview } from '@/components/Preview'
 		<main class='h-[calc(100%-56px)] w-auto aspect-9/19.5 flex flex-col'>
 			<Screen client:load />
 			<Preview client:load />
+			<Actions client:load />
 		</main>
 	</body>
 </html>
