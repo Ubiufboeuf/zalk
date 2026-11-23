@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css'
+import Theme from '@/components/Theme.astro'
 ---
 
 <html lang='es'>
@@ -10,8 +11,25 @@ import '@/styles/global.css'
 		<meta name='viewport' content='width=device-width' />
 		<title>Calculadora (zalk) - mAngo (Ubiufboeuf)</title>
 		<link rel='preload' href='/Inter.woff2' as='font' type='font/woff2' crossorigin />
+		<script is:inline>
+			function getCookie (cookie) {
+				return document.cookie
+          .split('; ')
+					.find((c) => c.startsWith(`${cookie}=`))
+					?.split('=')
+					?.[1]
+			}
+			
+			const savedTheme = getCookie('zalk-theme')
+			document.documentElement.setAttribute('data-theme', savedTheme ?? '')
+		</script>
 	</head>
-	<body>
-		<h1>Zalk</h1>
+	<body class='w-full h-full flex flex-col'>
+		<header class='h-14 w-full flex items-center justify-end px-4 p-1'>
+			<Theme />
+		</header>
+		<main>
+			<h1>Zalk</h1>
+		</main>
 	</body>
 </html>

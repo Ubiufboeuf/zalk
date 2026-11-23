@@ -1,0 +1,28 @@
+---
+import { Button } from './ui/Button'
+import { Icon } from './ui/Icon'
+import { IconMoon, IconSun } from './ui/Icons';
+---
+
+<Button id='theme-toggle' fill='ghost' class='h-full w-auto aspect-square rounded-md'>
+  <Icon class='size-6 not-dark:hidden'>
+    <IconMoon />
+  </Icon>
+  <Icon class='size-6 dark:hidden'>
+    <IconSun />
+  </Icon>
+</Button>
+
+<script>
+  const btn = document.querySelector('#theme-toggle')
+  btn?.addEventListener('click', toggleTheme)
+
+  function toggleTheme () {
+    const html = document.documentElement
+    const theme = html.getAttribute('data-theme')
+    const newTheme = (theme === 'dark') ? 'light' : 'dark'
+    html.setAttribute('data-theme', newTheme)
+    btn!.setAttribute('data-theme', newTheme)
+    document.cookie = `zalk-theme=${newTheme}; path=/`
+  }
+</script>
