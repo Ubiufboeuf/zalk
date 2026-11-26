@@ -3,7 +3,7 @@ import type { ReactNode } from 'preact/compat'
 
 export interface UIProps<T> {
   children?: ReactNode
-  uiRef?: RefObject<T>
+  uiRef?: RefObject<T | null>
   id?: string
   name?: string
   title?: string

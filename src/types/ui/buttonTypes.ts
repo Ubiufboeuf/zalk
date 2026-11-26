@@ -1,4 +1,4 @@
-import type { TargetedMouseEvent } from 'preact'
+import type { ComponentChildren, TargetedMouseEvent } from 'preact'
 import type { UIColors, UIFillMode, UIProps, UISizes, UIShapes, UIWidths } from './uiTypes'
 
 export interface ButtonProps extends UIProps<HTMLButtonElement> {
@@ -15,6 +15,9 @@ export interface ButtonProps extends UIProps<HTMLButtonElement> {
   focusable?: boolean
 
   onClick?: (event: TargetedMouseEvent<HTMLButtonElement>) => void
+
+  ['data-value']: unknown
+  binds: unknown[]
 }
 
 export interface ButtonLinkProps extends UIProps<HTMLButtonElement> {
@@ -28,4 +31,13 @@ export interface ButtonLinkProps extends UIProps<HTMLButtonElement> {
   shape?: UIShapes
   
   selected?: boolean
+}
+
+export interface CalcButtonProps {
+  id: string,
+  value: string,
+  content: ComponentChildren,
+  color?: UIColors,
+  binds?: string[]
+  disabled?: boolean
 }
