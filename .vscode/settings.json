@@ -3,6 +3,7 @@
     "config",
     "styles",
     "ui",
-    "deps"
+    "deps",
+    "types"
   ]
 }
