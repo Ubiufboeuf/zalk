@@ -1,9 +1,10 @@
 /* eslint-disable no-useless-assignment */
 import { Icon } from '@/components/ui/Icon'
 import { IconClear, IconParen, IconPercentage, IconDivide, IconCross, IconMinus, IconPlus, IconPlusMinus, IconEquals } from '@/components/ui/Icons'
+import type { CalcButtonProps } from '@/types/ui/buttonTypes'
 
 let i = 0
-export const calcButtons = [
+export const calcButtons: CalcButtonProps[] = [
   {
     id: `${i++}`,
     value: 'clear',
@@ -122,7 +123,7 @@ export const calcButtons = [
   },
   {
     id: `${i++}`,
-    value: '=',
+    value: 'equals',
     content: <Icon class='size-6'><IconEquals /></Icon>,
     color: 'accent',
     binds: ['enter']
