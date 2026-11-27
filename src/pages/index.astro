@@ -5,6 +5,7 @@ import { Screen } from '@/components/Screen'
 import { Preview } from '@/components/Preview'
 import { Actions } from '@/components/Actions'
 import { CalcButtons } from '@/components/CalcButtons'
+import { History } from '@/components/History'
 ---
 
 <html lang='es'>
@@ -32,11 +33,15 @@ import { CalcButtons } from '@/components/CalcButtons'
 		<header class='h-14 w-full flex items-center justify-end px-4 p-1'>
 			<Theme />
 		</header>
-		<main class='h-[calc(100%-56px)] w-auto aspect-9/19.5 flex flex-col justify-between'>
-			<Screen client:load />
-			<Preview client:load />
-			<Actions client:load />
-			<CalcButtons client:load />
-		</main>
+		<div class='relative h-[calc(100%-56px)] w-full flex justify-center items-start'>
+			<History client:load />
+			<main class='h-full w-auto aspect-9/19.5 flex flex-col justify-between'>
+				<Screen client:load />
+				<Preview client:load />
+				<Actions client:load />
+				<CalcButtons client:load />
+			</main>
+			<div class='flex-1 p-4'></div>
+		</div>
 	</body>
 </html>
