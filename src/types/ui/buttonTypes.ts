@@ -15,9 +15,10 @@ export interface ButtonProps extends UIProps<HTMLButtonElement> {
   focusable?: boolean
 
   onClick?: (event: TargetedMouseEvent<HTMLButtonElement>) => void
+  onMouseDown?: (event: TargetedMouseEvent<HTMLButtonElement>) => void
 
-  ['data-value']: unknown
-  binds: unknown[]
+  ['data-value']?: unknown
+  binds?: unknown[]
 }
 
 export interface ButtonLinkProps extends UIProps<HTMLButtonElement> {
