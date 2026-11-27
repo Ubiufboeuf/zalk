@@ -129,3 +129,10 @@ export const calcButtons: CalcButtonProps[] = [
     binds: ['enter']
   }
 ]
+
+export const keyAliases: Record<string, string> = {
+  c: 'clear',
+  escape: 'clear',
+  enter: 'equals',
+  '=': 'equals'
+}
