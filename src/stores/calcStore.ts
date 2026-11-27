@@ -5,8 +5,8 @@ interface CalcStore {
   result: string | undefined
   setResult: (result: string | undefined) => void
 
-  $operation: HTMLInputElement | undefined
-  set$Operation: ($operation: HTMLInputElement | undefined) => void
+  $operation: HTMLTextAreaElement | undefined
+  set$Operation: ($operation: HTMLTextAreaElement | undefined) => void
 
   isHistoryVisible: boolean
   setIsHistoryVisible: (isHistoryVisible: boolean) => void

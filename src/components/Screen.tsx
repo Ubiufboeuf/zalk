@@ -6,7 +6,7 @@ import type { TargetedInputEvent } from 'preact'
 import { useEffect, useRef } from 'preact/hooks'
 
 export function Screen () {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const setResult = useCalcStore((state) => state.setResult)
   const set$Operation = useCalcStore((state) => state.set$Operation)
@@ -69,7 +69,7 @@ export function Screen () {
     }
   }
 
-  function handleInput (event: TargetedInputEvent<HTMLInputElement>) {
+  function handleInput (event: TargetedInputEvent<HTMLTextAreaElement>) {
     const { value } = event.currentTarget
 
     setResult(calc(value))
@@ -95,11 +95,11 @@ export function Screen () {
   }, [set$Operation])
 
   return (
-    <div class='w-full h-12 mb-6'>
-      <input
+    <div class='w-full h-24'>
+      <textarea
         ref={inputRef}
         id='screen'
-        class='input h-full w-full text-end text-3xl outline-0 border-0 shadow-none p-0'
+        class='input h-full w-full max-w-full resize-none scrollbar-thin wrap-anywhere text-end text-3xl outline-0 border-0 shadow-none p-0 text-wrap'
         onInput={handleInput}
         onBlur={handleBlur}
       />

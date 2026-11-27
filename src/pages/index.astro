@@ -35,7 +35,7 @@ import { History } from '@/components/History'
 		</header>
 		<div class='relative h-[calc(100%-56px)] w-full flex justify-center items-start'>
 			<History client:load />
-			<main class='h-full w-auto aspect-9/19.5 flex flex-col justify-between'>
+			<main class='h-full max-w-full aspect-9/19.5 overflow-hidden flex flex-col justify-between'>
 				<Screen client:load />
 				<Preview client:load />
 				<Actions client:load />

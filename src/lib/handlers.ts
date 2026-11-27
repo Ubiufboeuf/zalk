@@ -3,7 +3,7 @@ import { calc } from '@mangufaf/zalk'
 import type { TargetedMouseEvent } from 'preact'
 import { saveInHistory } from './history'
 
-type SpecialHandler = ($operation: HTMLInputElement) => boolean
+type SpecialHandler = ($operation: HTMLTextAreaElement) => boolean
 
 function insertText (value: string) {
   document.execCommand('insertText', false, value)
