@@ -92,8 +92,15 @@ export function Screen () {
   useEffect(() => {
     set$Operation(inputRef.current ?? undefined)
 
+    if (inputRef.current) {
+      const preview = document.querySelector('#preview')
+      if (preview) {
+        setResult(calc(inputRef.current.value ?? ''))
+      }
+    }
+
     return () => set$Operation(undefined)
-  }, [set$Operation])
+  }, [set$Operation, setResult])
 
   return (
     <div class='w-full h-24'>
