@@ -72,6 +72,7 @@ export function Screen () {
   function handleInput (event: TargetedInputEvent<HTMLTextAreaElement>) {
     const { value } = event.currentTarget
 
+    localStorage.setItem('zalk:operation', value)
     setResult(calc(value))
   }
 

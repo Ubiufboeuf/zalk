@@ -28,6 +28,13 @@ import { History } from '@/components/History'
 			const savedTheme = getCookie('zalk-theme')
 			document.documentElement.setAttribute('data-theme', savedTheme ?? '')
 		</script>
+		<script is:inline type='module'>
+			const operation = document.getElementById('screen')
+
+			if (operation) {
+				operation.value = localStorage.getItem('zalk:operation') ?? ''
+			}
+		</script>
 	</head>
 	<body class='w-full h-full flex flex-col items-center'>
 		<header class='h-14 w-full flex items-center justify-end px-4 p-1'>
