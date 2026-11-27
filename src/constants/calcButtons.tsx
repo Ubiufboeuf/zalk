@@ -126,7 +126,7 @@ export const calcButtons: CalcButtonProps[] = [
     value: 'equals',
     content: <Icon class='size-6'><IconEquals /></Icon>,
     color: 'accent',
-    binds: ['enter']
+    binds: ['enter', '=']
   }
 ]
 

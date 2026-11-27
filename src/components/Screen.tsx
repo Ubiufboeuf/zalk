@@ -7,64 +7,72 @@ import { useEffect, useRef } from 'preact/hooks'
 
 export function Screen () {
   const inputRef = useRef<HTMLInputElement>(null)
-  
+
   const setResult = useCalcStore((state) => state.setResult)
   const set$Operation = useCalcStore((state) => state.set$Operation)
 
   function handleKeyDown (event: KeyboardEvent) {
-    const key = event.key.toLowerCase()
-    const modified = event.ctrlKey || event.metaKey
-    const action = modified ? key : (keyAliases[key] ?? key)
-    const specialHandler = specialHandlers[action]
-
     if (
-      /^[a-z]$/.test(key) &&
-      !modified &&
-      typeof specialHandler !== 'function'
-    ) {
-      event.preventDefault()
-      return
-    }
-
-    if (Number.isNaN(Number(key)) && !specialHandler) {
-      event.preventDefault()
-      return
-    }
+      event.defaultPrevented ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.altKey ||
+      event.isComposing
+    ) return
 
     const { $operation } = useCalcStore.getState()
     if (!$operation) return
 
-    const wasFocused = document.activeElement === $operation
+    const key = event.key.toLowerCase()
+    const action = keyAliases[key] ?? key
+    const specialHandler = specialHandlers[action]
 
-    if (!wasFocused && !event.defaultPrevented) {
+    const wasFocused = document.activeElement === $operation
+    const isNumber = /^[0-9]$/.test(key)
+
+    if (!isNumber && !specialHandler) {
+      if (wasFocused && key.length === 1) {
+        event.preventDefault()
+      }
+
+      return
+    }
+
+    if (!wasFocused) {
       $operation.focus()
     }
 
     if (typeof specialHandler === 'function') {
-      if (action !== key) event.preventDefault()
-      specialHandler(event, $operation)
+      const handled = specialHandler($operation)
+
+      if (handled) {
+        event.preventDefault()
+        return
+      }
     }
 
-    if (
-      !wasFocused &&
-      !event.defaultPrevented &&
-      key.length === 1 &&
-      !event.ctrlKey &&
-      !event.metaKey &&
-      !event.altKey
-    ) {
+    if (wasFocused) return
+
+    if (key === 'backspace' || key === 'delete') {
+      event.preventDefault()
+
+      document.execCommand(
+        key === 'backspace' ? 'delete' : 'forwardDelete'
+      )
+
+      return
+    }
+
+    if (key.length === 1) {
       event.preventDefault()
       document.execCommand('insertText', false, event.key)
     }
   }
-  
-  function handleInput (event: TargetedInputEvent<HTMLInputElement>) {
-    const input = event.currentTarget
-    if (!input) return
 
-    const { value } = input
-    const result = calc(value)
-    setResult(result)
+  function handleInput (event: TargetedInputEvent<HTMLInputElement>) {
+    const { value } = event.currentTarget
+
+    setResult(calc(value))
   }
 
   function handleBlur () {
@@ -79,19 +87,19 @@ export function Screen () {
 
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
-  
+
   useEffect(() => {
-    if (!inputRef.current) return
-    set$Operation(inputRef.current)
+    set$Operation(inputRef.current ?? undefined)
+
+    return () => set$Operation(undefined)
   }, [set$Operation])
-  
+
   return (
     <div class='w-full h-12 mb-6'>
       <input
         ref={inputRef}
         id='screen'
         class='input h-full w-full text-end text-3xl outline-0 border-0 shadow-none p-0'
-        onKeyDown={handleKeyDown}
         onInput={handleInput}
         onBlur={handleBlur}
       />
